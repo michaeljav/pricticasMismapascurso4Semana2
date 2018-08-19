@@ -1,12 +1,17 @@
 package com.exampleandroiddemottest.mismapas;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -39,8 +44,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+       // LatLng sydney = new LatLng(-34, 151);
+//        LatLng sydney = new LatLng(-69.91918940666221, 18.49302310445414);
+//        LatLng sydney = new LatLng( 18.49302310445414,-69.91918940666221);
+        Bundle bundle = getIntent().getExtras();
+        double longitude = bundle.getDouble(Constantantes.LONGITUDE);
+        double latitude = bundle.getDouble(Constantantes.LATITUDE);
+
+        byte[] b = bundle.getByteArray(Constantantes.IMG);
+        Bitmap bmp = BitmapFactory.decodeByteArray(b, 0, b.length);
+        LatLng sydney = new LatLng( latitude,longitude);
+       // BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.beach);
+        BitmapDescriptor icon2 = BitmapDescriptorFactory.fromBitmap(bmp);
+
+        mMap.addMarker(new MarkerOptions()
+                .position(sydney)
+                .title("Marker in Santo domingo")
+                .icon(icon2)
+               );
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+         //.icon(icon)
     }
 }
